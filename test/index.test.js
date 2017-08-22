@@ -3,43 +3,43 @@
 var Analytics = require('@segment/analytics.js-core').constructor;
 var sandbox = require('@segment/clear-env');
 var tester = require('@segment/analytics.js-integration-tester');
-var RockerboxPixel = require('../lib');
+var HindSight = require('../lib');
 
-describe('Rockerbox Pixel', function() {
+describe('HindSight', function() {
   var analytics;
-  var rockerboxPixel;
+  var hindsight;
   var options = {
     pixel_code: 'cHVzaG1haWx8NDQ2MDM5OHw0NDYwMzkyOjY1NzU2OXw0NDYwMzkzOjY1NzU2OHw0NDYwMzk5'
   };
 
   beforeEach(function() {
     analytics = new Analytics();
-    rockerboxPixel = new RockerboxPixel(options);
-    analytics.use(RockerboxPixel);
+    hindsight = new HindSight(options);
+    analytics.use(Hindsight);
     analytics.use(tester);
-    analytics.add(rockerboxPixel);
+    analytics.add(hindsight);
   });
 
   afterEach(function() {
     analytics.restore();
     analytics.reset();
-    rockerboxPixel.reset();
+    hindsight.reset();
     sandbox();
   });
 
   describe('before loading', function() {
     beforeEach(function() {
-      analytics.stub(rockerboxPixel, 'load');
+      analytics.stub(hindsight, 'load');
       analytics.initialize();
     });
 
     afterEach(function() {
-      rockerboxPixel.reset();
+      hindsight.reset();
     });
 
     describe('#initialize', function() {
       it('should call load on initialize', function() {
-        analytics.called(rockerboxPixel.load);
+        analytics.called(hindsight.load);
       });
 
       it('should set the correct source', function() {
@@ -63,7 +63,7 @@ describe('Rockerbox Pixel', function() {
 
   describe('loading', function() {
     it('should load', function(done) {
-      analytics.load(rockerboxPixel, done);
+      analytics.load(hindsight, done);
     });
   });
 
@@ -90,12 +90,12 @@ describe('Rockerbox Pixel', function() {
       });
 
       describe('event not mapped to legacy or standard', function() {
-        it('should send a "custom" event', function() {
+        it('should send a custom event', function() {
           analytics.track('view');
           analytics.called(window.RB.track, 'view');
         });
 
-        it('should send a "custom" event and properties', function() {
+        it('should send a custom event and properties', function() {
           analytics.track('custom_event', { property: true });
           analytics.called(window.RB.track, 'custom_event', { property: true });
         });
