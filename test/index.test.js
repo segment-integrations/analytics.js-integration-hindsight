@@ -3,9 +3,9 @@
 var Analytics = require('@segment/analytics.js-core').constructor;
 var sandbox = require('@segment/clear-env');
 var tester = require('@segment/analytics.js-integration-tester');
-var HindSight = require('../lib');
+var Hindsight = require('../lib');
 
-describe('HindSight', function() {
+describe('Hindsight', function() {
   var analytics;
   var hindsight;
   var options = {
@@ -14,8 +14,8 @@ describe('HindSight', function() {
 
   beforeEach(function() {
     analytics = new Analytics();
-    hindsight = new HindSight(options);
-    analytics.use(HindSight);
+    hindsight = new Hindsight(options);
+    analytics.use(Hindsight);
     analytics.use(tester);
     analytics.add(hindsight);
   });
