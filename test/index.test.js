@@ -15,7 +15,7 @@ describe('HindSight', function() {
   beforeEach(function() {
     analytics = new Analytics();
     hindsight = new HindSight(options);
-    analytics.use(Hindsight);
+    analytics.use(HindSight);
     analytics.use(tester);
     analytics.add(hindsight);
   });
