@@ -1,4 +1,4 @@
-x.x.x / xxxx-xx-xx
+1.0.0 / 2017-08-22
 ==================
 
-  * Initial scaffold :sparkles:
+  * Initial Release :sparkles:
