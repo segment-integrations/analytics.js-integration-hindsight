@@ -78,9 +78,28 @@ describe('Hindsight', function() {
         analytics.stub(window.RB, 'track');
       });
 
-      it('should track a pageview', function() {
-        analytics.page();
-        analytics.called(window.RB.track, 'view');
+      it('should track a pageview and props', function() {
+        analytics.page({ custom: 'blues eyes white dragon' });
+        analytics.called(window.RB.track, 'view', { 
+          custom: 'blues eyes white dragon',
+          path: location.pathname,
+          referrer: document.referrer,
+          search: location.search,
+          title: document.title,
+          url: location.href
+        });
+      });
+
+      it('should stringify props that are objects', function() {
+        analytics.page({ stringifythis: { a: 'b' } });
+        analytics.called(window.RB.track, 'view', { 
+          path: location.pathname,
+          referrer: document.referrer,
+          search: location.search,
+          title: document.title,
+          url: location.href,
+          stringifythis: '{\"a\":\"b\"}'
+        });
       });
     });
 
@@ -103,11 +122,13 @@ describe('Hindsight', function() {
         it('should send properties correctly', function() {
           analytics.track('event', {
             currency: 'XXX',
-            property: true
+            property: true,
+            stringifythis: { a: 'b' }
           });
           analytics.called(window.RB.track, 'event', {
             currency: 'XXX',
-            property: true
+            property: true, 
+            stringifythis: '{\"a\":\"b\"}'
           });
         });
       });
