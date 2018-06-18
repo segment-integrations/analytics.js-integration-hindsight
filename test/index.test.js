@@ -143,23 +143,18 @@ describe('Hindsight', function() {
       describe('event not mapped to legacy or standard', function() {
         it('should send a custom event', function() {
           analytics.identify('id');
-          analytics.called(window.RB.track, 'identify');
+          analytics.called(window.RB.track, 'identify', { id: 'id' });
         });
 
         it('should send traits with an email', function() {
           analytics.identify({ email: 'name@example.com' });
-          analytics.called(window.RB.track, ['identify', { email: 'name@example.com' }]);
+          analytics.called(window.RB.track, 'identify', { email: 'name@example.com' });
         });
 
         it('should send an id and traits with an email', function() {
           analytics.identify('id', { email: 'name@example.com' });
-          analytics.called(window.RB.track, ['identify', {
-            id: 'id',
-            email: 'name@example.com'
-          }]);
+          analytics.called(window.RB.track, 'identify', { id: 'id', email: 'name@example.com' });
         });
-
-
       });
     });
   });
